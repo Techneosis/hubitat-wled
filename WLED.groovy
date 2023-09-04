@@ -325,14 +325,26 @@ def setColorTemperature(temp){
     setGenericTempName(temp)
 }
 
+def getCurrentValueMap(){
+    def map = [:]
+    map.hue = device.currentValue("hue")
+    map.saturation = device.currentValue("saturation")
+    map.level = device.currentValue("level")
+    return map
+}
+
 def setHue(value){
-    //TODO: Fix color conversion
-    def color = [:]
+    color = getCurrentValueMap()
     color.hue = value
-    color.level = 255
-    color.saturation = 100
-    
     setColor(color)
+    sendEvent(name: "hue", value: value)
+}
+
+def setSaturation(value){
+    color = getCurrentValueMap()
+    color.saturation = value
+    setColor(color)
+    sendEvent(name: "saturation", value: value)
 }
 
 def setRgbColor(rgbValue){
